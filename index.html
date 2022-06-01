@@ -4,136 +4,316 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sketchfab Viewer API example</title>
-  
+
   <!-- Insert this script -->
-  <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.5.1.js"></script>
+  <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.8.2.js"></script>
 </head>
 
 <body>
   <iframe style="position:fixed; width:100%; height:100%; border:0" src="" id="api-frame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 
   <div class="buttons">
-    <button id="keyA">Interpretation SHOW</button>
-    <button id="keyB">Topography TEXTURE</button>
+    <button id="keyA">SouthWest</button>
+    <button id="keyB">NorthEast</button>
+    <button id="keyC">Outcrop:</button>
+    <button id="keyD">Land</button>
+    <button id="keyE">Map:</button>
+    <button id="keyF">Land</button>
+    <button id="keyG"> Section: </button>
+    <button id="keyH">clipped</button>
+    <button id="keyI">Interpretation</button>
+    <button id="keyJ">Scalebar</button>
+    <button id="keyK">Background Info</button>
   </div>
 
   <!-- Your new script -->
   <script>
-    var model = 'a9603e44e2554845a9997208536cd913',
+    var model = '9f325fcf8f9345eca880b61b883e74d1',
 
     // Buttons
     buttonA = document.getElementById( 'keyA' ),
     buttonB = document.getElementById( 'keyB' ),
-            
-    version = '1.5.1',
+    buttonC = document.getElementById( 'keyC' ),
+    buttonD = document.getElementById( 'keyD' ),
+    buttonE = document.getElementById( 'keyE' ),
+    buttonF = document.getElementById( 'keyF' ),
+    buttonG = document.getElementById( 'keyG' ),
+    buttonH = document.getElementById( 'keyH' ),
+    buttonI = document.getElementById( 'keyI' ),
+    buttonJ = document.getElementById( 'keyJ' ),
+    buttonK = document.getElementById( 'keyK' ),
+
+    // Variables
+    version = '1.8.2',
     iframe = document.getElementById( 'api-frame' ),
     client = new Sketchfab( version, iframe ),
-            
+
     error = function () {
       console.error( 'Sketchfab API Error!' );
     },
-            
+
     success = function( api ) {
       api.start();
       // Wait for viewer to be ready
       api.addEventListener( 'viewerready', function() {
+       //api.hideAnnotation(0);
+       //api.hideAnnotation(1);
 
         // Get the object nodes
         api.getNodeMap( function ( err, nodes ) {
-          if ( !err ) {
-            console.log( 'got nodes:', nodes );
-            for ( var prop in nodes ) {
-              if ( nodes.hasOwnProperty( prop ) ) {
-                // Check nodes against object names
-                if ( nodes[ prop ].name === "SB_Curve" ) {
-                  var node_SB = nodes[prop].instanceID;
-                }
-                if ( nodes[ prop ].name === "MFS1_Curve" ) {
-                  var node_MFS1 = nodes[prop].instanceID;
-                }
-                if ( nodes[ prop ].name === "MFS2_Curve" ) {
-                  var node_MFS2 = nodes[prop].instanceID;
-                }
-                if ( nodes[ prop ].name === "Text1" ) {
-                  var node_Text1 = nodes[prop].instanceID;
-                }
-                if ( nodes[ prop ].name === "Text2" ) {
-                  var node_Text2 = nodes[prop].instanceID;
-                }
-                if ( nodes[ prop ].name === "Text3" ) {
-                  var node_Text3 = nodes[prop].instanceID;
-                }
-              }
+        if ( !err ) {
+        for ( var prop in nodes ) {
+          if ( nodes.hasOwnProperty( prop ) ) {
+            //alert(nodes[prop].name);
+            if      ( nodes[ prop ].name === "outcrop1" )   { var node_outcrop1  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "outcrop2" )   { var node_outcrop2  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "basemap1" )   { var node_basemap1  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "basemap2" )   { var node_basemap2  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "section1" )   { var node_section1  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "section2" )   { var node_section2  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "hr_MFS1" )    { var node_horizon1  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "hr_MSF1T" )   { var node_horizon1T = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "hr_MFS2" )    { var node_horizon2  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "hr_MSF2T" )   { var node_horizon2T = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "hr_SB" )      { var node_horizon3  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "hr_SBT" )     { var node_horizon3T = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "scalebar" )   { var node_scalebar  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "scalebarT" )  { var node_scalebarT = nodes[prop].instanceID; }
+          }
+        }
+
+        api.hide(node_section1);
+        api.hide(node_section2);
+
+        if ( node_outcrop2 && node_basemap2 && node_horizon1 && node_horizon1T && node_horizon2 && node_horizon2T && node_horizon3 && node_horizon3T ) {
+         // Add button event
+          buttonA.addEventListener( 'click', function() {
+            switch(buttonA.innerHTML) {
+              case "SouthWest":
+                buttonA.innerHTML = " SouthWest ";
+                buttonA.style.backgroundColor = "#888888";
+                api.hide(node_outcrop2);
+                api.hide(node_basemap2);
+                api.hide(node_horizon1);
+                api.hide(node_horizon1T);
+                api.hide(node_horizon2);
+                api.hide(node_horizon2T);
+                api.hide(node_horizon3);
+                api.hide(node_horizon3T);
+                break;
+              case " SouthWest ":
+                buttonA.innerHTML = "SouthWest";
+                buttonA.style.backgroundColor = "#1caad9";
+                api.show(node_outcrop2);
+                api.show(node_basemap2);
+                api.show(node_horizon1);
+                api.show(node_horizon1T);
+                api.show(node_horizon2);
+                api.show(node_horizon2T);
+                api.show(node_horizon3);
+                api.show(node_horizon3T);
+                break;
             }
+          });
+        }
 
-            if ( node_SB && node_MFS1 && node_MFS2 && node_Text1 && node_Text2 && node_Text3 ) {
-              // Add button event
-              buttonA.addEventListener( 'click', function() {
-                switch(buttonA.innerHTML) {
-                  case "Interpretation SHOW":
-                    api.hide( node_SB );
-                    api.hide( node_MFS1 );
-                    api.hide( node_MFS2 );
-                    api.hide( node_Text1 );
-                    api.hide( node_Text2 );
-                    api.hide( node_Text3 );
-                    buttonA.innerHTML = "Interpretation HIDE";
-                    buttonA.style.backgroundColor = "#888888";
-                    break;
-                  case "Interpretation HIDE":
-                    api.show( node_SB );
-                    api.show( node_MFS1 );
-                    api.show( node_MFS2 );
-                    api.show( node_Text1 );
-                    api.show( node_Text2 );
-                    api.show( node_Text3 );
-                    buttonA.innerHTML = "Interpretation SHOW";
-                    buttonA.style.backgroundColor = "#1caad9";
-                    break;
-                };
-              });
-            };
-          };
-        });
-
-        // Get the materials
-        api.getMaterialList(function(err,materials){
-          if ( !err ) {
-            for (var i=0; i<materials.length; i++){
-              if(materials[i].name == "Topography__0"){
-                var material_Topography = materials[i];
-              };
-            };
-
-            if ( material_Topography ) {
-              // Add button event
-              buttonB.addEventListener( 'click', function() {
-                switch(buttonB.innerHTML) {
-                  case "Topography TEXTURE":
-                    material_Topography.channels.DiffusePBR.factor = 0;
-                    material_Topography.channels.SpecularPBR.factor = 0.7;
-                    api.setMaterial(material_Topography, function() {});
-                    buttonB.innerHTML = "Topography SHADING";
-                    buttonB.style.backgroundColor = "#888888";
-                    break;
-                  case "Topography SHADING":
-                    material_Topography.channels.DiffusePBR.factor = 1;
-                    material_Topography.channels.SpecularPBR.factor = 0;
-                    api.setMaterial(material_Topography, function() {});
-                    buttonB.innerHTML = "Topography TEXTURE";
-                    buttonB.style.backgroundColor = "#1caad9";
-                    break;
-                  }
-              });
+        if ( node_outcrop1 && node_basemap1 ) {
+          // Add button event
+          buttonB.addEventListener( 'click', function() {
+            switch(buttonB.innerHTML) {
+              case "NorthEast":
+                buttonB.innerHTML = " NorthEast ";
+                buttonB.style.backgroundColor = "#888888";
+                api.hide(node_outcrop1);
+                api.hide(node_basemap1);
+                break;
+              case " NorthEast ":
+                buttonB.innerHTML = "NorthEast";
+                buttonB.style.backgroundColor = "#1caad9";
+                api.show(node_outcrop1);
+                api.show(node_basemap1);
+                break;
             }
-          };
-        });
+          });
+        }
 
+        if ( node_outcrop1 && node_outcrop2 ) {
+          // Add button event
+          buttonC.addEventListener( 'click', function() {
+            switch(buttonC.innerHTML) {
+              case "Outcrop:":
+                buttonC.innerHTML = " Outcrop: ";
+                buttonC.style.backgroundColor = "#888888";
+                api.hide(node_outcrop1);
+                api.hide(node_outcrop2);
+                break;
+              case " Outcrop: ":
+                buttonC.innerHTML = "Outcrop:";
+                buttonC.style.backgroundColor = "#1caad9";
+                api.show(node_outcrop1);
+                api.show(node_outcrop2);
+                break;
+            }
+          });
+        }
+
+        if ( node_basemap1 && node_basemap2 ) {
+          // Add button event
+          buttonE.addEventListener( 'click', function() {
+            switch(buttonE.innerHTML) {
+              case "Map:":
+                buttonE.innerHTML = " Map: ";
+                buttonE.style.backgroundColor = "#888888";
+                api.hide(node_basemap1);
+                api.hide(node_basemap2);
+                break;
+              case " Map: ":
+                buttonE.innerHTML = "Map:";
+                buttonE.style.backgroundColor = "#1caad9";
+                api.show(node_basemap1);
+                api.show(node_basemap2);
+                break;
+            }
+          });
+        }
+
+        if ( node_section1 && node_section2 ) {
+          // Add button event
+          buttonG.addEventListener( 'click', function() {
+            switch(buttonG.innerHTML) {
+              case "Section:":
+                buttonG.innerHTML = " Section: ";
+                buttonG.style.backgroundColor = "#888888";
+                api.hide(node_section1);
+                api.hide(node_section2);
+                break;
+              case " Section: ":
+                buttonG.innerHTML = "Section:";
+                buttonG.style.backgroundColor = "#1caad9";
+                api.show(node_section1);
+                api.show(node_section2);
+                break;
+            }
+          });
+
+          buttonH.addEventListener( 'click', function() {
+            switch(buttonH.innerHTML) {
+              case "whole":
+                buttonH.innerHTML = "clipped";
+                buttonH.style.backgroundColor = "#888888";
+                api.hide(node_section2);
+                break;
+              case "clipped":
+                buttonH.innerHTML = "whole";
+                buttonH.style.backgroundColor = "#1caad9";
+                api.show(node_section2);
+                break;
+            }
+          });
+
+        }
+
+        if ( node_horizon1 && node_horizon1T && node_horizon2 && node_horizon2T && node_horizon3 && node_horizon3T ) {
+          // Add button event
+          buttonI.addEventListener( 'click', function() {
+            switch(buttonI.innerHTML) {
+              case "Interpretation":
+                buttonI.innerHTML = " Interpretation ";
+                buttonI.style.backgroundColor = "#888888";
+                api.hide(node_horizon1);
+                api.hide(node_horizon1T);
+                api.hide(node_horizon2);
+                api.hide(node_horizon2T);
+                api.hide(node_horizon3);
+                api.hide(node_horizon3T);
+                break;
+              case " Interpretation ":
+                buttonI.innerHTML = "Interpretation";
+                buttonI.style.backgroundColor = "#1caad9";
+                api.show(node_horizon1);
+                api.show(node_horizon1T);
+                api.show(node_horizon2);
+                api.show(node_horizon2T);
+                api.show(node_horizon3);
+                api.show(node_horizon3T);
+                break;
+            }
+          });
+        }
+
+        if ( node_scalebar && node_scalebarT ) {
+          // Add button event
+          buttonJ.addEventListener( 'click', function() {
+            switch(buttonJ.innerHTML) {
+              case "Scalebar":
+                buttonJ.innerHTML = " Scalebar ";
+                buttonJ.style.backgroundColor = "#888888";
+                api.hide(node_scalebar);
+                api.hide(node_scalebarT);
+                break;
+              case " Scalebar ":
+                buttonJ.innerHTML = "Scalebar";
+                buttonJ.style.backgroundColor = "#1caad9";
+                api.show(node_scalebar);
+                api.show(node_scalebarT);
+                break;
+            }
+          });
+        }
+
+        }
       });
+
+      api.getTextureList(function(err, textures) {
+         if(!err) {
+           for ( var prop in textures ) {
+             if (textures[prop].name === "outcrop.jpg")     { var texture_outcrop = textures[prop].uid; }
+             if (textures[prop].name === "basemap_sat.jpg") { var texture_basemap = textures[prop].uid; }
+           }
+
+           if ( texture_outcrop ) {
+             // Add button event
+             buttonD.addEventListener( 'click', function() {
+               switch(buttonD.innerHTML) {
+                 case "Land":
+                   buttonD.innerHTML = "B&W";
+                   api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/grey.jpg', texture_outcrop, function(err, texture_outcrop) {});
+                   break;
+                 case "B&amp;W":
+                   buttonD.innerHTML = "Land";
+                   api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/outcrop.jpg', texture_outcrop, function(err, texture_outcrop) {});
+                   break;
+               }
+             });
+           }
+
+           if ( texture_basemap ) {
+             // Add button event
+             buttonF.addEventListener( 'click', function() {
+               switch(buttonF.innerHTML) {
+                 case "Land":
+                   buttonF.innerHTML = "Geo";
+                   api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/basemap_geo.jpg', texture_basemap, function(err, texture_basemap) {});
+                   break;
+                 case "Geo":
+                   buttonF.innerHTML = "Land";
+                   api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/basemap_sat.jpg', texture_basemap, function(err, texture_basemap) {});
+                   break;
+               }
+             });
+           }
+
+         }
+       });
+
+      buttonK.addEventListener( 'click', function() {
+         window.open("https://www.sciencedirect.com/science/article/pii/S0921818122001163");
+       });
+
+     });
     };
 
     // Load the model
-    console.log( 'loading a model' );
     client.init( model, {
       success: success,
       error: error,
@@ -149,50 +329,52 @@
   <!-- Lastly, some CSS -->
   <style type="text/css">
 
-    body {
-      margin: 0;
-    }
+   body {
+     margin: 0;
+   }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+   iframe {
+     width: 100%;
+     height: 100%;
+     border: none;
+   }
 
-    /* Button style */
-    .buttons {
-      margin: 32px 0;
-      left: 50%;
-      bottom: 0;
-      -webkit-transform: translate(-50%);
-      -ms-transform: translate(-50%);
-      transform: translate(-50%);
-      z-index: 1;
-      display: block;
-      position: absolute;
-    }
+   /* Button style */
+   .buttons {
+     width: 160px;
+     margin: 35px 5px;
+     right: 0;
+     top: : 0;
+     z-index: 1;
+     position: absolute;
+   }
 
-    button {
-      width: 200px;
-      height: 25px;
-      line-height: 21px;
-      text-transform: capitalize;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      vertical-align: middle;
-      float: left;
-      margin-right: 5px;
-    }
+   button {
+     width: 100%;
+     height: 25px;
+     line-height: 21px;
+     /*text-transform: capitalize;*/
+     color: white;
+     opacity: 0.8;
+     border: none;
+     border-radius: 5px;
+     text-align: center;
+     vertical-align: middle;
+     display: block;
+     margin-top: 2px;
+     background: #1caad9;
+   }
 
-    #keyA {
-      background: #1caad9;
-    }
-
-    #keyB {
-      background: #1caad9;
-    }
+   button:hover {opacity: 1;}
+   button:active {font-weight: bold;}
+   #keyA {width: 48%; display: inline;}
+   #keyB {width: 49%; display: inline;}
+   #keyC {width: 40%; display: inline;}
+   #keyD {width: 57%; display: inline;}
+   #keyE {width: 40%; display: inline;}
+   #keyF {width: 57%; display: inline;}
+   #keyG {background: #888888; width: 40%; display: inline;}
+   #keyH {background: #888888; width: 57%; display: inline;}
 
   </style>
 </body>
