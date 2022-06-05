@@ -15,8 +15,7 @@
   <div class="buttons">
     <button id="keyA">SouthWest</button>
     <button id="keyB"> NorthEast </button>
-    <button id="keyC">Outcrop:</button>
-    <button id="keyD">Land > B&W</button>
+    <button id="keyD">Outcrop: Land > B&W</button>
     <button id="keyE">Map:</button>
     <button id="keyF">Land > Geo</button>
     <button id="keyG">Section:</button>
@@ -33,7 +32,6 @@
     // Buttons
     buttonA = document.getElementById( 'keyA' ),
     buttonB = document.getElementById( 'keyB' ),
-    buttonC = document.getElementById( 'keyC' ),
     buttonD = document.getElementById( 'keyD' ),
     buttonE = document.getElementById( 'keyE' ),
     buttonF = document.getElementById( 'keyF' ),
@@ -109,7 +107,7 @@
               case " SouthWest ":
                 buttonA.innerHTML = "SouthWest";
                 buttonA.style.backgroundColor = "#1caad9";
-                if (buttonC.innerHTML == "Outcrop:") {api.show(node_outcrop2);}
+                api.show(node_outcrop2);
                 if (buttonE.innerHTML == "Map:") {api.show(node_basemap2);}
                 if (buttonI.innerHTML == "Interpretation") {
                   api.show(node_horizonA);
@@ -139,34 +137,12 @@
               case " NorthEast ":
                 buttonB.innerHTML = "NorthEast";
                 buttonB.style.backgroundColor = "#1caad9";
-                if (buttonC.innerHTML == "Outcrop:") {api.show(node_outcrop1);}
+                api.show(node_outcrop1);
                 if (buttonE.innerHTML == "Map:") {api.show(node_basemap1);}
                 if (buttonI.innerHTML =="Interpretation") {
                   api.show(node_horizonB1);
                   api.show(node_horizonC1);
                 }
-                break;
-            }
-          });
-        }
-
-        if ( node_outcrop1 && node_outcrop2 ) {
-          // Add button event
-          buttonC.addEventListener( 'click', function() {
-            switch(buttonC.innerHTML) {
-              case "Outcrop:":
-                buttonC.innerHTML = " Outcrop: ";
-                buttonC.style.backgroundColor = "#888888";
-                buttonD.style.backgroundColor = "#888888";
-                api.hide(node_outcrop1);
-                api.hide(node_outcrop2);
-                break;
-              case " Outcrop: ":
-                buttonC.innerHTML = "Outcrop:";
-                buttonC.style.backgroundColor = "#1caad9";
-                buttonD.style.backgroundColor = "#1caad9";
-                if (buttonA.innerHTML == "SouthWest") {api.show(node_outcrop2);}
-                if (buttonB.innerHTML == "NorthEast") {api.show(node_outcrop1);}
                 break;
             }
           });
@@ -210,7 +186,7 @@
                 buttonG.style.backgroundColor = "#1caad9";
                 buttonH.style.backgroundColor = "#1caad9";
                 api.show(node_section1);
-                if (buttonH.innerHTML == "whole") {api.show(node_section2);}
+                if (buttonH.innerHTML == "whole &gt; clip") {api.show(node_section2);}
                 break;
             }
           });
@@ -238,7 +214,9 @@
                 buttonI.innerHTML = " Interpretation ";
                 buttonI.style.backgroundColor = "#888888";
                 api.hide(node_horizonA);
+                api.hide(node_horizonB1);
                 api.hide(node_horizonB2);
+                api.hide(node_horizonC1);
                 api.hide(node_horizonC2);
                 api.hide(node_textA);
                 api.hide(node_textB);
@@ -298,12 +276,12 @@
              // Add button event
              buttonD.addEventListener( 'click', function() {
                switch(buttonD.innerHTML) {
-                 case "Land &gt; B&amp;W":
-                   buttonD.innerHTML = "B&W > Land";
+                 case "Outcrop: Land &gt; B&amp;W":
+                   buttonD.innerHTML = "Outcrop: B&W > Land";
                    api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/grey.jpg', texture_outcrop, function(err, texture_outcrop) {});
                    break;
-                 case "B&amp;W &gt; Land":
-                   buttonD.innerHTML = "Land > B&W";
+                 case "Outcrop: B&amp;W &gt; Land":
+                   buttonD.innerHTML = "Outcrop: Land > B&W";
                    api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/outcrop.jpg', texture_outcrop, function(err, texture_outcrop) {});
                    break;
                }
@@ -392,8 +370,6 @@
    button:active {font-weight: bold;}
    #keyA {width: 48%; display: inline;}
    #keyB {background: #888888; width: 49%; display: inline;}
-   #keyC {width: 40%; display: inline;}
-   #keyD {width: 57%; display: inline;}
    #keyE {width: 40%; display: inline;}
    #keyF {width: 57%; display: inline;}
    #keyG {width: 40%; display: inline;}
