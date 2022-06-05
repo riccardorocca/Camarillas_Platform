@@ -17,7 +17,7 @@
     <button id="keyB"> NorthEast </button>
     <button id="keyD">Outcrop: Land > B&W</button>
     <button id="keyE">Map:</button>
-    <button id="keyF">Land > Geo</button>
+    <button id="keyF">Geo > Land</button>
     <button id="keyG">Section:</button>
     <button id="keyH">clip > whole</button>
     <button id="keyI">Interpretation</button>
@@ -268,8 +268,9 @@
       api.getTextureList(function(err, textures) {
          if(!err) {
            for ( var prop in textures ) {
+             //alert(textures[prop].name);
              if (textures[prop].name === "outcrop.jpg")     { var texture_outcrop = textures[prop].uid; }
-             if (textures[prop].name === "basemap_sat.jpg") { var texture_basemap = textures[prop].uid; }
+             if (textures[prop].name === "basemap_geo.jpg") { var texture_basemap = textures[prop].uid; }
            }
 
            if ( texture_outcrop ) {
