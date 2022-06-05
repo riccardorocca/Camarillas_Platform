@@ -14,13 +14,13 @@
 
   <div class="buttons">
     <button id="keyA">SouthWest</button>
-    <button id="keyB">NorthEast</button>
+    <button id="keyB"> NorthEast </button>
     <button id="keyC">Outcrop:</button>
-    <button id="keyD">Land</button>
+    <button id="keyD">Land > B&W</button>
     <button id="keyE">Map:</button>
-    <button id="keyF">Land</button>
-    <button id="keyG"> Section: </button>
-    <button id="keyH">clipped</button>
+    <button id="keyF">Land > Geo</button>
+    <button id="keyG">Section:</button>
+    <button id="keyH">clip > whole</button>
     <button id="keyI">Interpretation</button>
     <button id="keyJ">Scalebar</button>
     <button id="keyK">Background Info</button>
@@ -28,7 +28,7 @@
 
   <!-- Your new script -->
   <script>
-    var model = '9f325fcf8f9345eca880b61b883e74d1',
+    var model = '28d3fdd03600461d97c61fae6c3e1018',
 
     // Buttons
     buttonA = document.getElementById( 'keyA' ),
@@ -71,21 +71,26 @@
             else if ( nodes[ prop ].name === "basemap2" )   { var node_basemap2  = nodes[prop].instanceID; }
             else if ( nodes[ prop ].name === "section1" )   { var node_section1  = nodes[prop].instanceID; }
             else if ( nodes[ prop ].name === "section2" )   { var node_section2  = nodes[prop].instanceID; }
-            else if ( nodes[ prop ].name === "hr_MFS1" )    { var node_horizon1  = nodes[prop].instanceID; }
-            else if ( nodes[ prop ].name === "hr_MSF1T" )   { var node_horizon1T = nodes[prop].instanceID; }
-            else if ( nodes[ prop ].name === "hr_MFS2" )    { var node_horizon2  = nodes[prop].instanceID; }
-            else if ( nodes[ prop ].name === "hr_MSF2T" )   { var node_horizon2T = nodes[prop].instanceID; }
-            else if ( nodes[ prop ].name === "hr_SB" )      { var node_horizon3  = nodes[prop].instanceID; }
-            else if ( nodes[ prop ].name === "hr_SBT" )     { var node_horizon3T = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "horizonA" )   { var node_horizonA  = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "horizonB1" )  { var node_horizonB1 = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "horizonB2" )  { var node_horizonB2 = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "horizonC1" )  { var node_horizonC1 = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "horizonC2" )  { var node_horizonC2 = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "textA" )      { var node_textA     = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "textB" )      { var node_textB     = nodes[prop].instanceID; }
+            else if ( nodes[ prop ].name === "textC" )      { var node_textC     = nodes[prop].instanceID; }
             else if ( nodes[ prop ].name === "scalebar" )   { var node_scalebar  = nodes[prop].instanceID; }
             else if ( nodes[ prop ].name === "scalebarT" )  { var node_scalebarT = nodes[prop].instanceID; }
           }
         }
 
-        api.hide(node_section1);
+        api.hide(node_outcrop1);
+        api.hide(node_basemap1);
         api.hide(node_section2);
+        api.hide(node_horizonB1);
+        api.hide(node_horizonC1);
 
-        if ( node_outcrop2 && node_basemap2 && node_horizon1 && node_horizon1T && node_horizon2 && node_horizon2T && node_horizon3 && node_horizon3T ) {
+        if ( node_outcrop2 && node_basemap2 && node_horizonA && node_horizonB2 && node_horizonC2 && node_textA && node_textB && node_textC ) {
          // Add button event
           buttonA.addEventListener( 'click', function() {
             switch(buttonA.innerHTML) {
@@ -94,24 +99,26 @@
                 buttonA.style.backgroundColor = "#888888";
                 api.hide(node_outcrop2);
                 api.hide(node_basemap2);
-                api.hide(node_horizon1);
-                api.hide(node_horizon1T);
-                api.hide(node_horizon2);
-                api.hide(node_horizon2T);
-                api.hide(node_horizon3);
-                api.hide(node_horizon3T);
+                api.hide(node_horizonA);
+                api.hide(node_horizonB2);
+                api.hide(node_horizonC2);
+                api.hide(node_textA);
+                api.hide(node_textB);
+                api.hide(node_textC);
                 break;
               case " SouthWest ":
                 buttonA.innerHTML = "SouthWest";
                 buttonA.style.backgroundColor = "#1caad9";
-                api.show(node_outcrop2);
-                api.show(node_basemap2);
-                api.show(node_horizon1);
-                api.show(node_horizon1T);
-                api.show(node_horizon2);
-                api.show(node_horizon2T);
-                api.show(node_horizon3);
-                api.show(node_horizon3T);
+                if (buttonC.innerHTML == "Outcrop:") {api.show(node_outcrop2);}
+                if (buttonE.innerHTML == "Map:") {api.show(node_basemap2);}
+                if (buttonI.innerHTML == "Interpretation") {
+                  api.show(node_horizonA);
+                  api.show(node_horizonB2);
+                  api.show(node_horizonC2);
+                  api.show(node_textA);
+                  api.show(node_textB);
+                  api.show(node_textC);
+                }
                 break;
             }
           });
@@ -126,12 +133,18 @@
                 buttonB.style.backgroundColor = "#888888";
                 api.hide(node_outcrop1);
                 api.hide(node_basemap1);
+                api.hide(node_horizonB1);
+                api.hide(node_horizonC1);
                 break;
               case " NorthEast ":
                 buttonB.innerHTML = "NorthEast";
                 buttonB.style.backgroundColor = "#1caad9";
-                api.show(node_outcrop1);
-                api.show(node_basemap1);
+                if (buttonC.innerHTML == "Outcrop:") {api.show(node_outcrop1);}
+                if (buttonE.innerHTML == "Map:") {api.show(node_basemap1);}
+                if (buttonI.innerHTML =="Interpretation") {
+                  api.show(node_horizonB1);
+                  api.show(node_horizonC1);
+                }
                 break;
             }
           });
@@ -144,14 +157,16 @@
               case "Outcrop:":
                 buttonC.innerHTML = " Outcrop: ";
                 buttonC.style.backgroundColor = "#888888";
+                buttonD.style.backgroundColor = "#888888";
                 api.hide(node_outcrop1);
                 api.hide(node_outcrop2);
                 break;
               case " Outcrop: ":
                 buttonC.innerHTML = "Outcrop:";
                 buttonC.style.backgroundColor = "#1caad9";
-                api.show(node_outcrop1);
-                api.show(node_outcrop2);
+                buttonD.style.backgroundColor = "#1caad9";
+                if (buttonA.innerHTML == "SouthWest") {api.show(node_outcrop2);}
+                if (buttonB.innerHTML == "NorthEast") {api.show(node_outcrop1);}
                 break;
             }
           });
@@ -164,14 +179,16 @@
               case "Map:":
                 buttonE.innerHTML = " Map: ";
                 buttonE.style.backgroundColor = "#888888";
+                buttonF.style.backgroundColor = "#888888";
                 api.hide(node_basemap1);
                 api.hide(node_basemap2);
                 break;
               case " Map: ":
                 buttonE.innerHTML = "Map:";
                 buttonE.style.backgroundColor = "#1caad9";
-                api.show(node_basemap1);
-                api.show(node_basemap2);
+                buttonF.style.backgroundColor = "#1caad9";
+                if (buttonA.innerHTML == "SouthWest") {api.show(node_basemap2);}
+                if (buttonB.innerHTML == "NorthEast") {api.show(node_basemap1);}
                 break;
             }
           });
@@ -184,58 +201,64 @@
               case "Section:":
                 buttonG.innerHTML = " Section: ";
                 buttonG.style.backgroundColor = "#888888";
+                buttonH.style.backgroundColor = "#888888";
                 api.hide(node_section1);
                 api.hide(node_section2);
                 break;
               case " Section: ":
                 buttonG.innerHTML = "Section:";
                 buttonG.style.backgroundColor = "#1caad9";
+                buttonH.style.backgroundColor = "#1caad9";
                 api.show(node_section1);
-                api.show(node_section2);
+                if (buttonH.innerHTML == "whole") {api.show(node_section2);}
                 break;
             }
           });
 
           buttonH.addEventListener( 'click', function() {
             switch(buttonH.innerHTML) {
-              case "whole":
-                buttonH.innerHTML = "clipped";
-                buttonH.style.backgroundColor = "#888888";
+              case "whole &gt; clip":
+                buttonH.innerHTML = "clip > whole";
                 api.hide(node_section2);
                 break;
-              case "clipped":
-                buttonH.innerHTML = "whole";
-                buttonH.style.backgroundColor = "#1caad9";
-                api.show(node_section2);
+              case "clip &gt; whole":
+                buttonH.innerHTML = "whole > clip";
+                if (buttonG.innerHTML == "Section:") {api.show(node_section2);}
                 break;
             }
           });
 
         }
 
-        if ( node_horizon1 && node_horizon1T && node_horizon2 && node_horizon2T && node_horizon3 && node_horizon3T ) {
+        if ( node_horizonA && node_horizonB1 && node_horizonB2 && node_horizonC1 && node_horizonC2 && node_textA && node_textB && node_textC ) {
           // Add button event
           buttonI.addEventListener( 'click', function() {
             switch(buttonI.innerHTML) {
               case "Interpretation":
                 buttonI.innerHTML = " Interpretation ";
                 buttonI.style.backgroundColor = "#888888";
-                api.hide(node_horizon1);
-                api.hide(node_horizon1T);
-                api.hide(node_horizon2);
-                api.hide(node_horizon2T);
-                api.hide(node_horizon3);
-                api.hide(node_horizon3T);
+                api.hide(node_horizonA);
+                api.hide(node_horizonB2);
+                api.hide(node_horizonC2);
+                api.hide(node_textA);
+                api.hide(node_textB);
+                api.hide(node_textC);
                 break;
               case " Interpretation ":
                 buttonI.innerHTML = "Interpretation";
                 buttonI.style.backgroundColor = "#1caad9";
-                api.show(node_horizon1);
-                api.show(node_horizon1T);
-                api.show(node_horizon2);
-                api.show(node_horizon2T);
-                api.show(node_horizon3);
-                api.show(node_horizon3T);
+                if (buttonA.innerHTML == "SouthWest") {
+                  api.show(node_horizonA);
+                  api.show(node_horizonB2);
+                  api.show(node_horizonC2);
+                  api.show(node_textA);
+                  api.show(node_textB);
+                  api.show(node_textC);
+                }
+                if (buttonB.innerHTML == "NorthEast") {
+                  api.show(node_horizonB1);
+                  api.show(node_horizonC1);
+                }
                 break;
             }
           });
@@ -275,12 +298,12 @@
              // Add button event
              buttonD.addEventListener( 'click', function() {
                switch(buttonD.innerHTML) {
-                 case "Land":
-                   buttonD.innerHTML = "B&W";
+                 case "Land &gt; B&amp;W":
+                   buttonD.innerHTML = "B&W > Land";
                    api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/grey.jpg', texture_outcrop, function(err, texture_outcrop) {});
                    break;
-                 case "B&amp;W":
-                   buttonD.innerHTML = "Land";
+                 case "B&amp;W &gt; Land":
+                   buttonD.innerHTML = "Land > B&W";
                    api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/outcrop.jpg', texture_outcrop, function(err, texture_outcrop) {});
                    break;
                }
@@ -291,12 +314,12 @@
              // Add button event
              buttonF.addEventListener( 'click', function() {
                switch(buttonF.innerHTML) {
-                 case "Land":
-                   buttonF.innerHTML = "Geo";
+                 case "Land &gt; Geo":
+                   buttonF.innerHTML = "Geo > Land";
                    api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/basemap_geo.jpg', texture_basemap, function(err, texture_basemap) {});
                    break;
-                 case "Geo":
-                   buttonF.innerHTML = "Land";
+                 case "Geo &gt; Land":
+                   buttonF.innerHTML = "Land > Geo";
                    api.updateTexture('https://riccardorocca.github.io/Camarillas_Platform/basemap_sat.jpg', texture_basemap, function(err, texture_basemap) {});
                    break;
                }
@@ -368,13 +391,13 @@
    button:hover {opacity: 1;}
    button:active {font-weight: bold;}
    #keyA {width: 48%; display: inline;}
-   #keyB {width: 49%; display: inline;}
+   #keyB {background: #888888; width: 49%; display: inline;}
    #keyC {width: 40%; display: inline;}
    #keyD {width: 57%; display: inline;}
    #keyE {width: 40%; display: inline;}
    #keyF {width: 57%; display: inline;}
-   #keyG {background: #888888; width: 40%; display: inline;}
-   #keyH {background: #888888; width: 57%; display: inline;}
+   #keyG {width: 40%; display: inline;}
+   #keyH {width: 57%; display: inline;}
 
   </style>
 </body>
