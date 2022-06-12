@@ -22,6 +22,9 @@
     <button id="keyH">clip > whole</button>
     <button id="keyI">Interpretation</button>
     <button id="keyJ">Scalebar</button>
+    <button id="keyL1">Zoom1</button>
+    <button id="keyL2">Zoom2</button>
+    <button id="keyL3">Zoom3</button>
     <button id="keyK">Background Info</button>
   </div>
 
@@ -40,6 +43,9 @@
     buttonI = document.getElementById( 'keyI' ),
     buttonJ = document.getElementById( 'keyJ' ),
     buttonK = document.getElementById( 'keyK' ),
+    buttonL1 = document.getElementById( 'keyL1' ),
+    buttonL2 = document.getElementById( 'keyL2' ),
+    buttonL3 = document.getElementById( 'keyL3' ),
 
     // Variables
     version = '1.8.2',
@@ -262,6 +268,83 @@
           });
         }
 
+        buttonL1.addEventListener( 'click', function() {
+          buttonA.innerHTML = "SouthWest";
+          buttonA.style.backgroundColor = "#1caad9";
+          buttonB.innerHTML = "NorthEast";
+          buttonB.style.backgroundColor = "#1caad9";
+          buttonE.innerHTML = "Map:";
+          buttonE.style.backgroundColor = "#1caad9";
+          buttonF.style.backgroundColor = "#1caad9";
+          api.show(node_outcrop2);
+          api.show(node_outcrop1);
+          api.show(node_basemap1);
+          api.show(node_basemap2);
+          buttonG.innerHTML = " Section: ";
+          buttonG.style.backgroundColor = "#888888";
+          buttonH.style.backgroundColor = "#888888";
+          api.hide(node_section1);
+          api.hide(node_section2);
+          api.setCameraLookAt([-6411.71,1705.49,21579.68], [-1227.51,199.31,691.07], 2);
+        });
+
+        buttonL2.addEventListener( 'click', function() {
+          buttonA.innerHTML = "SouthWest";
+          buttonA.style.backgroundColor = "#1caad9";
+          api.show(node_outcrop2);
+          buttonE.innerHTML = "Map:";
+          buttonE.style.backgroundColor = "#1caad9";
+          buttonF.style.backgroundColor = "#1caad9";
+          api.show(node_basemap2);
+          buttonB.innerHTML = " NorthEast ";
+          buttonB.style.backgroundColor = "#888888";
+          api.hide(node_outcrop1);
+          api.hide(node_basemap1);
+          api.hide(node_horizonB1);
+          api.hide(node_horizonC1);
+          buttonG.innerHTML = "Section:";
+          buttonG.style.backgroundColor = "#1caad9";
+          api.show(node_section1);
+          buttonH.style.backgroundColor = "#1caad9";
+          buttonH.innerHTML = "clip > whole";
+          api.hide(node_section2);
+          api.setCameraLookAt([781.45,-2038.34,3444.57], [-354.82,2153.92,1249.77], 2);
+        });
+
+        buttonL3.addEventListener( 'click', function() {
+          buttonA.innerHTML = "SouthWest";
+          buttonA.style.backgroundColor = "#1caad9";
+          api.show(node_outcrop2);
+          buttonB.innerHTML = "NorthEast";
+          buttonB.style.backgroundColor = "#1caad9";
+          api.show(node_outcrop1);
+          buttonE.innerHTML = " Map: ";
+          buttonE.style.backgroundColor = "#888888";
+          buttonF.style.backgroundColor = "#888888";
+          api.hide(node_basemap1);
+          api.hide(node_basemap2);
+          buttonI.innerHTML = "Interpretation";
+          buttonI.style.backgroundColor = "#1caad9";
+          api.show(node_horizonA);
+          api.show(node_horizonB2);
+          api.show(node_horizonC2);
+          api.show(node_textA);
+          api.show(node_textB);
+          api.show(node_textC);
+          api.show(node_horizonB1);
+          api.show(node_horizonC1);
+          buttonG.innerHTML = " Section: ";
+          buttonG.style.backgroundColor = "#888888";
+          buttonH.style.backgroundColor = "#888888";
+          api.hide(node_section1);
+          api.hide(node_section2);
+          buttonJ.innerHTML = "Scalebar";
+          buttonJ.style.backgroundColor = "#1caad9";
+          api.show(node_scalebar);
+          api.show(node_scalebarT);
+          api.setCameraLookAt([2090.55,2781.90,1767.26], [1806.59,2837.72,1386.28], 2);
+        });
+
         }
       });
 
@@ -311,6 +394,14 @@
       buttonK.addEventListener( 'click', function() {
          window.open("https://www.sciencedirect.com/science/article/pii/S0921818122001163");
        });
+
+/*
+      buttonL.addEventListener( 'click', function() {
+        api.getCameraLookAt(function(err, camera) {
+          prompt("",camera.position+"\n"+camera.target) // [x, y, z]
+        });
+      });
+*/
 
      });
     };
@@ -375,6 +466,10 @@
    #keyF {width: 57%; display: inline;}
    #keyG {width: 40%; display: inline;}
    #keyH {width: 57%; display: inline;}
+   #keyI {margin-top: 10px;}
+   #keyL1 {margin-top: 10px; width: 31%; display: inline;}
+   #keyL2 {margin-top: 10px; width: 32%; display: inline;}
+   #keyL3 {margin-top: 10px; width: 32%; display: inline;}
 
   </style>
 </body>
